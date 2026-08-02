@@ -39,7 +39,6 @@
   <link rel="shortcut icon" href="/assets/branding/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/branding/favicons/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <link rel="preload" as="image" href="/assets/videos/hero-video-poster.jpg" fetchpriority="high" />
   <!-- WebSite schema — enables Google Sitelinks for this domain -->
   <script type="application/ld+json">
     {
@@ -214,18 +213,10 @@
       box-shadow: 0 10px 40px rgba(139, 92, 246, 0.05) !important;
     }
 
-    #hero-video {
-      filter: blur(4px) !important;
-      transform: none !important;
-      transform-origin: center center !important;
-    }
-
     .hero-video-overlay {
       background: transparent !important;
       border: 1px solid rgba(139, 92, 246, 0.15) !important;
       box-shadow: inset 0 0 60px rgba(255, 255, 255, 0.6) !important;
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
     }
 
     /* Hero Typography */
@@ -696,18 +687,6 @@
         position: relative !important;
       }
 
-      .hero-video-wrap video,
-      #hero-video {
-        position: absolute !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        max-height: none !important;
-        object-fit: cover !important;
-        object-position: center !important;
-        border-radius: 20px !important;
-      }
-
       .hero-video-overlay {
         position: relative !important;
         min-height: 840px !important;
@@ -795,16 +774,6 @@
         height: auto !important;
         border-radius: 18px !important;
         margin: 14px auto 2rem !important;
-      }
-
-      .hero-video-wrap video,
-      #hero-video {
-        position: absolute !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        max-height: none !important;
-        object-fit: cover !important;
       }
 
       .hero-video-overlay {
@@ -2009,11 +1978,11 @@
 
     <!-- video frame with overlay (full hero) -->
     <div class="hero-video-wrap">
-      <!-- Native background video: poster paints immediately while media loads. -->
-      <video id="hero-video" autoplay muted loop playsinline preload="auto"
-        poster="/assets/videos/hero-video-poster.jpg" aria-hidden="true">
-        <source src="/assets/videos/hero-video.mp4" type="video/mp4">
-      </video>
+      <!-- YouTube background video: muted, looping, cropped, and non-interactive. -->
+      <iframe class="hero-youtube-background"
+        src="https://www.youtube.com/embed/sfvLoUfv0pE?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=sfvLoUfv0pE&amp;controls=0&amp;modestbranding=1&amp;rel=0&amp;playsinline=1&amp;disablekb=1&amp;fs=0&amp;iv_load_policy=3"
+        title="Ignisia background video" tabindex="-1" aria-hidden="true" loading="eager"
+        allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
       <div class="hero-video-overlay">
 

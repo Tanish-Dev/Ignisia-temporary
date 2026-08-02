@@ -48,40 +48,6 @@ const committeeMembers = [
   { id: 5, name: "Aryan More", role: "Treasurer", imagePath: "assets/images/gallery/ARYANMORE.webp" }
 ];
 
-/* ─── NATIVE HERO VIDEO WITH YOUTUBE FALLBACK ────────────── */
-(function initHeroVideoFallback() {
-  var container = document.querySelector('.hero-video-wrap');
-  var video = document.getElementById('hero-video');
-  if (!container || !video) return;
-
-  var source = video.querySelector('source');
-  var fallbackActive = false;
-
-  function activateYouTubeFallback() {
-    if (fallbackActive) return;
-    fallbackActive = true;
-
-    container.classList.add('youtube-fallback-active');
-    video.pause();
-    video.remove();
-
-    var iframe = document.createElement('iframe');
-    iframe.className = 'hero-youtube-fallback';
-    iframe.src = 'https://www.youtube.com/embed/sfvLoUfv0pE?autoplay=1&mute=1&loop=1&playlist=sfvLoUfv0pE&controls=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&fs=0&iv_load_policy=3';
-    iframe.title = 'Ignisia background video';
-    iframe.tabIndex = -1;
-    iframe.setAttribute('aria-hidden', 'true');
-    iframe.setAttribute('allow', 'autoplay; encrypted-media');
-    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-    container.prepend(iframe);
-  }
-
-  video.addEventListener('error', activateYouTubeFallback, { once: true });
-  if (source) {
-    source.addEventListener('error', activateYouTubeFallback, { once: true });
-  }
-}());
-
 /* ─── COUNTDOWN TIMER ───────────────────────────────────────
    Set your event date here (YYYY, MM-1, DD, HH, MM, SS)
    Month is 0-indexed: April = 3
