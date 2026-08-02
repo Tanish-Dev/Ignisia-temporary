@@ -39,6 +39,7 @@
   <link rel="shortcut icon" href="/assets/branding/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/branding/favicons/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preload" as="image" href="/assets/videos/hero-video-poster.jpg" fetchpriority="high" />
   <!-- WebSite schema — enables Google Sitelinks for this domain -->
   <script type="application/ld+json">
     {
@@ -213,14 +214,9 @@
       box-shadow: 0 10px 40px rgba(139, 92, 246, 0.05) !important;
     }
 
-    #hero-loader {
-      display: none !important;
-      opacity: 0 !important;
-    }
-
     #hero-video {
       filter: blur(4px) !important;
-      transform: scale(1.04) !important;
+      transform: none !important;
       transform-origin: center center !important;
     }
 
@@ -273,8 +269,17 @@
     }
 
     .hero-ai-badge {
-      background: rgba(139, 92, 246, 0.1) !important;
+      background: transparent !important;
       color: #2938cf !important;
+    }
+
+    .hero-ai-badge,
+    .hero-pdf-btns-row .gradient-button,
+    .hero-insta-handle,
+    .interactive-hover-btn,
+    .interactive-hover-btn .btn-default-text,
+    .interactive-hover-btn .btn-hover-layer {
+      font-weight: 700 !important;
     }
 
     .hero-tagline {
@@ -2004,13 +2009,11 @@
 
     <!-- video frame with overlay (full hero) -->
     <div class="hero-video-wrap">
-      <!-- Background Video -->
-      <video id="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-hidden="true">
-        <source src="assets/media/bg.mp4" type="video/mp4">
+      <!-- Native background video: poster paints immediately while media loads. -->
+      <video id="hero-video" autoplay muted loop playsinline preload="auto"
+        poster="/assets/videos/hero-video-poster.jpg" aria-hidden="true">
+        <source src="/assets/videos/hero-video.mp4" type="video/mp4">
       </video>
-      <!-- Gradient shown until video is ready.
-           Fades out smoothly so there's no jump to a black/blank frame.  -->
-      <div id="hero-loader" aria-hidden="true"></div>
 
       <div class="hero-video-overlay">
 
@@ -2022,9 +2025,9 @@
         <!-- center: brand + tagline -->
         <div class="hero-video-center">
           <div class="hero-title-block">
-            <h1 class="hero-title">Ignisia</h1>
+            <h1 class="hero-title">IGNISIA</h1>
             <div class="hero-ai-row">
-              <span class="hero-ai-badge">AI CLUB</span>
+              <span class="hero-ai-badge">AI &amp; Innovation Club</span>
             </div>
           </div>
           <p class="hero-tagline">Think&nbsp; <span class="hero-tagline-accent">Build</span>&nbsp; Evolve</p>

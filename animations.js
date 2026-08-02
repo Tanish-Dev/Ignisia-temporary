@@ -65,10 +65,6 @@ if (!prefersReducedMotion) {
     if (!pageReady || !counterDone) return;
     /* small pause so user sees 100 */
     setTimeout(function () {
-      if (vid && vid.paused) {
-        vid.muted = true;
-        vid.play().catch(function () {});
-      }
       loader.classList.add('loader-done');
       setTimeout(function () {
         if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
@@ -78,15 +74,15 @@ if (!prefersReducedMotion) {
 
   function markReady() { pageReady = true; tryDismiss(); }
 
-  /* primary: video ready */
-  var vid = document.querySelector('#hero video');
-  if (vid) vid.addEventListener('canplay', markReady, { once: true });
+  /* Do not block page entry on third-party background media. */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', markReady, { once: true });
+  } else {
+    markReady();
+  }
 
-  /* secondary: all assets */
-  window.addEventListener('load', markReady, { once: true });
-
-  /* hard fallback */
-  setTimeout(markReady, 7000);
+  /* Hard fallback if DOM readiness is delayed unexpectedly. */
+  setTimeout(markReady, 4000);
 }());
 
 /* pills below video on scroll */

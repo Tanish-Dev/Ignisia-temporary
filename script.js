@@ -48,64 +48,38 @@ const committeeMembers = [
   { id: 5, name: "Aryan More", role: "Treasurer", imagePath: "assets/images/gallery/ARYANMORE.webp" }
 ];
 
-/* ─── MUX HLS BACKGROUND VIDEO ────────────────────────────
-   Disabled in favor of local assets/media/bg.mp4.
-──────────────────────────────────────────────────────────── */
-// var HLS_SRC = 'https://stream.mux.com/4IMYGcL01xjs7ek5ANO17JC4VQVUTsojZlnw4fXzwSxc.m3u8';
-
-// Fallback: hide loader after 8 s in case the stream stalls
-var _heroLoaderFallback = setTimeout(function () {
-  var el = document.getElementById('hero-loader');
-  if (el) el.classList.add('loaded');
-}, 8000);
-
-(function initHeroVideo() {
+/* ─── NATIVE HERO VIDEO WITH YOUTUBE FALLBACK ────────────── */
+(function initHeroVideoFallback() {
+  var container = document.querySelector('.hero-video-wrap');
   var video = document.getElementById('hero-video');
-  if (!video) return;
+  if (!container || !video) return;
 
-  video.muted = true;
-  video.defaultMuted = true;
+  var source = video.querySelector('source');
+  var fallbackActive = false;
 
-  function hideLoader() {
-    clearTimeout(_heroLoaderFallback);
-    var loader = document.getElementById('hero-loader');
-    if (loader) loader.classList.add('loaded');
+  function activateYouTubeFallback() {
+    if (fallbackActive) return;
+    fallbackActive = true;
+
+    container.classList.add('youtube-fallback-active');
+    video.pause();
+    video.remove();
+
+    var iframe = document.createElement('iframe');
+    iframe.className = 'hero-youtube-fallback';
+    iframe.src = 'https://www.youtube.com/embed/sfvLoUfv0pE?autoplay=1&mute=1&loop=1&playlist=sfvLoUfv0pE&controls=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&fs=0&iv_load_policy=3';
+    iframe.title = 'Ignisia background video';
+    iframe.tabIndex = -1;
+    iframe.setAttribute('aria-hidden', 'true');
+    iframe.setAttribute('allow', 'autoplay; encrypted-media');
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    container.prepend(iframe);
   }
 
-  function tryPlay() {
-    var p = video.play();
-    if (p !== undefined) {
-      p.then(function () {
-        video.playbackRate = 0.85;
-        hideLoader();
-      }).catch(function () {
-        // Fallback if browser blocks un-gestured autoplay
-        var triggerPlay = function () {
-          video.play();
-          video.playbackRate = 0.85;
-          hideLoader();
-          window.removeEventListener('touchstart', triggerPlay);
-          window.removeEventListener('click', triggerPlay);
-          window.removeEventListener('scroll', triggerPlay);
-        };
-        window.addEventListener('touchstart', triggerPlay, { once: true, passive: true });
-        window.addEventListener('click', triggerPlay, { once: true, passive: true });
-        window.addEventListener('scroll', triggerPlay, { once: true, passive: true });
-      });
-    }
+  video.addEventListener('error', activateYouTubeFallback, { once: true });
+  if (source) {
+    source.addEventListener('error', activateYouTubeFallback, { once: true });
   }
-
-  video.addEventListener('loadeddata', hideLoader, { once: true });
-  video.addEventListener('canplay', hideLoader, { once: true });
-  video.addEventListener('playing', hideLoader, { once: true });
-
-  // Try playing immediately
-  tryPlay();
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', tryPlay, { once: true });
-  }
-  window.addEventListener('load', tryPlay, { once: true });
-  window.addEventListener('pageshow', tryPlay);
 }());
 
 /* ─── COUNTDOWN TIMER ───────────────────────────────────────
