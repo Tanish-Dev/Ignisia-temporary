@@ -1,0 +1,32 @@
+# System & OS Files
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# IDE & Editor Configs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Large / Binary Media Assets
+*.mov
+# Ignoring head photos as requested
+assets/committee/head-*.jpg
+
+# Temporary & Build Assets
+*.tmp
+*.temp
+SEO-PLAYBOOK.md
+# PDFs are repository assets only when organized under assets/docs.
+*.pdf
+!assets/docs/
+!assets/docs/**/*.pdf
+
+# Fallback cache
+node_modules/
+.npm/
