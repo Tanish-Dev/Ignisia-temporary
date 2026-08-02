@@ -170,8 +170,13 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu();
   let progTimer = null;
   const INTERVAL = 5400; // ms between auto-advance
 
-  /* ── Get full src list from thumbnails ── */
-  const srcs = thumbs.map(t => t.querySelector('img').src);
+  /* ── Get full src list from thumbnails ──
+     Thumbs load a small 400px webp; the full-size webp lives in data-full so the
+     strip stays cheap and full images are only fetched as each slide is shown. */
+  const srcs = thumbs.map(t => {
+    const img = t.querySelector('img');
+    return img.dataset.full || img.src;
+  });
 
   /* ── Go to a specific slide ── */
   function goTo(idx, fromAuto) {
@@ -490,4 +495,46 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu();
       if (activeModal) closeModal(activeModal);
     }
   });
+})();
+
+/* ─────────────────────────────────────────────
+   Hero background video (Mux)
+   Streamed as raw HLS into a native <video> rather than an embedded player, so
+   there is no player UI to hide: no controls, no play button, no spinner.
+   The element is revealed only once playback actually starts.
+   ───────────────────────────────────────────── */
+(function () {
+  const PLAYBACK_ID = 'fSVoT2702KHCqp2DP2Y5IqYVkefjykYpmTL00HVBx1B01s';
+  const SRC = 'https://stream.mux.com/' + PLAYBACK_ID + '.m3u8';
+
+  const video = document.getElementById('heroVideo');
+  if (!video) return;
+
+  let revealed = false;
+  const reveal = () => {
+    if (revealed) return;
+    revealed = true;
+    video.classList.add('is-playing');
+  };
+  video.addEventListener('playing', reveal, { once: true });
+
+  // Safety net: if playback never reports, don't leave the hero permanently blank.
+  setTimeout(reveal, 6000);
+
+  const start = () => video.play().catch(() => { /* autoplay blocked; poster remains */ });
+
+  // hls.js is checked FIRST, not native playback. Chromium reports "maybe" for
+  // canPlayType('application/vnd.apple.mpegurl') — a truthy string — despite not
+  // actually supporting HLS natively, so testing native first silently breaks Chrome.
+  if (window.Hls && window.Hls.isSupported()) {
+    // capLevelToPlayerSize keeps Mux from shipping 1080p into a small viewport.
+    const hls = new window.Hls({ capLevelToPlayerSize: true, startLevel: -1 });
+    hls.loadSource(SRC);
+    hls.attachMedia(video);
+    hls.on(window.Hls.Events.MANIFEST_PARSED, start);
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    // Safari / iOS: native HLS, no MSE and therefore no hls.js.
+    video.src = SRC;
+    start();
+  }
 })();
