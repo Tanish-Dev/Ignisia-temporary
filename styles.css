@@ -4472,10 +4472,6 @@ footer {
     font-size: clamp(4rem, min(9vw, 18vh), 9.5rem);
   }
 
-  .hero-ai-row {
-    margin-top: -.65em;
-  }
-
   .hero-ai-badge {
     font-size: clamp(13px, 2.1vh, 18px);
   }
@@ -4628,7 +4624,7 @@ footer {
 .hero-ai-row {
   display: flex;
   justify-content: center;
-  margin-top: -0.8em;
+  margin-top: clamp(.5rem, 1.25vw, 1rem);
   padding-right: .2rem;
 }
 
