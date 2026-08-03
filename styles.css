@@ -884,7 +884,9 @@ nav {
 .hero-title {
   font-family: var(--font-serif);
   font-size: clamp(4.5rem, 11vw, 11rem);
-  font-weight: 500;
+  /* Instrument Serif is loaded at 400. Using that real face avoids browsers
+     synthesising a different weight on smaller screens. */
+  font-weight: 400;
   letter-spacing: -.025em;
   line-height: .95;
   margin-bottom: 2 0px;
@@ -1121,7 +1123,7 @@ nav {
 .section-hero-title {
   font-family: var(--font-serif);
   font-style: italic;
-  font-weight: 500;
+  font-weight: 400;
   font-size: clamp(3rem, 7vw, 5.2rem);
   color: var(--white);
   letter-spacing: -.025em;
@@ -3130,7 +3132,7 @@ footer {
   font-family: var(--font-serif);
   font-style: italic;
   font-size: clamp(3.5rem, 8vw, 6rem);
-  font-weight: 500;
+  font-weight: 400;
   color: var(--white);
   letter-spacing: -.025em;
   line-height: 1;
@@ -3679,10 +3681,6 @@ footer {
   }
 
   .hero-title {
-    /* Keep the desktop hero wordmark's face on tablet and mobile. */
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-style: italic;
-    font-weight: 500;
     font-size: clamp(3.4rem, 14vw, 7rem);
   }
 
@@ -4402,10 +4400,6 @@ footer {
     min-height: 860px;
     height: auto;
     padding: calc(56px + 1rem) 1rem 3.5rem;
-  }
-
-  .hero-title {
-    font-size: clamp(6.2rem, 17vw, 6.6rem);
   }
 
   .hero-subtitle {
