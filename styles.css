@@ -3678,16 +3678,11 @@ footer {
     gap: 1rem;
   }
 
-  /* Match the desktop hero's Instrument Serif italic display type on tablet
-     and mobile section headings. */
-  .hero-title,
-  .section-hero-title {
-    font-family: 'Instrument Serif', Georgia, serif !important;
-    font-style: italic !important;
-    font-weight: 500 !important;
-  }
-
   .hero-title {
+    /* Keep the desktop hero wordmark's face on tablet and mobile. */
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
     font-size: clamp(3.4rem, 14vw, 7rem);
   }
 
